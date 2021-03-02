@@ -59,8 +59,12 @@
 - name: Create and start container
   docker_container:
     name: qbittorrentvpn
+    hostname: qbittorrentvpn
     image: binhex/arch-qbittorrentvpn
     pull: yes
+    published_ports:
+     - "127.0.0.1:8080:8080"
+     - "127.0.0.1:8118:8118"
     privileged: true
     sysctls:
       net.ipv4.conf.all.src_valid_mark: 1
@@ -80,7 +84,7 @@
       VPN_PROV: "{{ qbittorrentvpn.vpn_prov|default('pia',true) }}"
       VPN_CLIENT: "{{ qbittorrentvpn.vpn_client|default('openvpn', 'openvpn') }}"
       STRICT_PORT_FORWARD: "yes"
-      ENABLE_PRIVOXY: "no"
+      ENABLE_PRIVOXY: "yes"
       LAN_NETWORK: "172.18.0.1/16"
       NAME_SERVERS: "209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1"
       PHP_TZ: "{{ tz }}"
